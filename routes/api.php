@@ -25,7 +25,7 @@ Route::prefix('MainCategory')->group(function () {
     Route::get('/getOne/{id}', [MainCategoryController::class, 'getMainCategory']);
     Route::post('/create', [MainCategoryController::class, 'create']);
     Route::post('/update', [MainCategoryController::class, 'update']);
-    Route::delete('/delete', [MainCategoryController::class, 'delete']);
+    Route::delete('/delete/{id}', [MainCategoryController::class, 'delete']);
 });
 
 Route::prefix('Category')->group(function () {
@@ -33,7 +33,7 @@ Route::prefix('Category')->group(function () {
     Route::get('/getOne/{id}', [CategoryController::class, 'getCategory']);
     Route::post('/create', [CategoryController::class, 'create']);
     Route::post('/update', [CategoryController::class, 'update']);
-    Route::delete('/delete', [CategoryController::class, 'delete']);
+    Route::delete('/delete/{id}', [CategoryController::class, 'delete']);
 });
 
 Route::prefix('Store')->group(function () {
@@ -41,7 +41,7 @@ Route::prefix('Store')->group(function () {
     Route::get('/getOne/{id}', [StoreController::class, 'getStore']);
     Route::post('/create', [StoreController::class, 'create']);
     Route::post('/update', [StoreController::class, 'update']);
-    Route::delete('/delete', [StoreController::class, 'delete']);
+    Route::delete('/delete/{id}', [StoreController::class, 'delete']);
 });
 
 Route::prefix('Type')->group(function () {
@@ -49,7 +49,7 @@ Route::prefix('Type')->group(function () {
     Route::get('/getOne/{id}', [TypeController::class, 'getType']);
     Route::post('/create', [TypeController::class, 'create']);
     Route::post('/update', [TypeController::class, 'update']);
-    Route::delete('/delete', [TypeController::class, 'delete']);
+    Route::delete('/delete/{id}', [TypeController::class, 'delete']);
 });
 
 Route::prefix('Product')->group(function () {
@@ -58,6 +58,10 @@ Route::prefix('Product')->group(function () {
     Route::post('/create', [ProductController::class, 'create']);
     Route::post('/update', [ProductController::class, 'update']);
     Route::delete('/delete', [ProductController::class, 'delete']);
+});
+
+Route::prefix('Other')->group(function () {
+    Route::get('/getAllDropDown', [ProductController::class, 'getAllDropDown']);
 });
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
