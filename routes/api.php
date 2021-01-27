@@ -7,7 +7,8 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\StoreController;
 use App\Http\Controllers\TypeController;
 use App\Http\Controllers\ProductController;
-
+use App\Http\Controllers\OtherController;
+use App\Http\Controllers\StockController;
 
 
 /*
@@ -57,11 +58,15 @@ Route::prefix('Product')->group(function () {
     Route::get('/getOne/{id}', [ProductController::class, 'getProduct']);
     Route::post('/create', [ProductController::class, 'create']);
     Route::post('/update', [ProductController::class, 'update']);
-    Route::delete('/delete', [ProductController::class, 'delete']);
+    Route::delete('/delete/{id}', [ProductController::class, 'delete']);
+});
+
+Route::prefix('Stock')->group(function () {
+    Route::post('/getProducts', [StockController::class, 'getProducts']);
 });
 
 Route::prefix('Other')->group(function () {
-    Route::get('/getAllDropDown', [ProductController::class, 'getAllDropDown']);
+    Route::get('/getAllDropDown', [OtherController::class, 'getAllDropDown']);
 });
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {

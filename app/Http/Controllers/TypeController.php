@@ -16,7 +16,10 @@ class TypeController extends Controller
                 'id' => $item->id,
                 'category' => ($item->category == null ? 'No Data' : $item->category->name),
                 'name' => $item->name,
-                'detail' => $item->detail,
+                'detail' => ($item->detail == null ? 'No Data' : $item->detail),
+                'delete_active' => $item->delete_active,
+                'category_id' => $item->category_id,
+
             ];
             array_push($dataSet, $data);
         }
@@ -57,8 +60,13 @@ class TypeController extends Controller
 
     public function delete($id)
     {
-        $item = Type::find($id)->delete();
-        return response()->json(['status' => 'true', 'msg' => 'Delete successfully']);
+        $item = Type::find($id);
+        if (count($item->products) > 0) {
+            return response()->json(['status' => 'false', 'msg' => 'Delete fail']);
+        } else {
+            $item->delete();
+            return response()->json(['status' => 'true', 'msg' => 'Delete successfully']);
+        }
     }
     //
 }

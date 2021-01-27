@@ -9,6 +9,8 @@ class Type extends Model
 {
     use HasFactory;
 
+    protected $appends = ['delete_active'];
+
     public function products()
     {
         return $this->hasMany('App\Models\Product');
@@ -17,5 +19,14 @@ class Type extends Model
     public function category()
     {
         return $this->belongsTo('App\Models\Category');
+    }
+
+    public function getDeleteActiveAttribute()
+    {
+        if (count($this->products) > 0) {
+            return false;
+        } else {
+            return true;
+        }
     }
 }

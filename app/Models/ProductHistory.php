@@ -12,8 +12,4 @@ class ProductHistory extends Model
     {
         return $this->belongsTo('App\Models\Product');
     }
-    public function productHistory()
-    {
-        return $this->hasMany('App\Models\ProductHistory');
-    }
 }

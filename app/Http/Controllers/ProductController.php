@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\ProductDetail;
 use App\Models\ProductHistory;
+use App\Models\Type;
 use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\File;
@@ -24,9 +25,9 @@ class ProductController extends Controller
                 'price' => $item->price,
                 'amount' => $item->amount,
                 'active' => $item->active,
-                'sku' => ($item->productDetail == null ? 'No Data' : $item->productDetail->sku),
-                'detail' => ($item->productDetail == null ? 'No Data' : $item->productDetail->detail),
-                'img' => $item->productDetail->image,
+                'sku' => ($item->productDetail->sku == null ? 'No Data' : $item->productDetail->sku),
+                'detail' => ($item->productDetail->detail == null ? 'No Data' : $item->productDetail->detail),
+                'img' => $item->productDetail->image
             ];
             array_push($dataSet, $data);
         }
@@ -46,6 +47,8 @@ class ProductController extends Controller
             'sku' => ($item->productDetail == null ? 'No Data' : $item->productDetail->sku),
             'detail' => ($item->productDetail == null ? 'No Data' : $item->productDetail->detail),
             'img' => $item->productDetail->image,
+            'delete_active' => $item->delete_active,
+
         ];
         return response()->json(['status' => true, 'dataSet' => $dataSet, 'msg' => 'Get Data successfully']);
     }
@@ -65,13 +68,18 @@ class ProductController extends Controller
         } else {
             $filename = null;
         }
+        //get store main_category category_id
+
         //end img_path
         $item = new Product;
         $item->type_id = $request->input('type_id');
+        $item->store_id = $request->input('store_id');
+        $item->category_id = $request->input('category_id');
         $item->name = $request->input('name');
         $item->price = $request->input('price');
         $item->amount = $request->input('amount');
         $item->active = $request->input('active');
+
         if ($item->save()) {
             // product_detail
             $item_detail = new ProductDetail;
@@ -95,27 +103,29 @@ class ProductController extends Controller
             }
         }
         return response()->json(['status' => false, 'msg' => 'Create fail']);
+        return response()->json(['status' => false, 'msg' => $img]);
     }
 
     public function update(Request $request)
     {
         $item = Product::find($request->input('id'));
+
         $item->type_id = $request->input('type_id');
         $item->name = $request->input('name');
         $item->price = $request->input('price');
         $item->active = $request->input('active');
+        $item->save();
         if ($item->save()) {
-            // product_detail
-            $item_detail = ProductDetail::find($request->input('id'));
-            $item_detail->product_id = $item->id;
+////            product_detail
+            $item_detail = ProductDetail::firstWhere('product_id', '=', $request->input('id'));
             $item_detail->sku = $request->input('sku');
+            $item_detail->recommended_type = $request->input('recommended_type');
             $item_detail->detail = $request->input('detail');
-            // end_product_detail
-
-            //img_path
+//            end_product_detail
+//            img_path
             if ($request->has('img_path')) {
                 File::delete($item_detail->img_path);
-                //delete img before add new
+//                delete img before add new
                 $file = $request->file('img_path');
                 $filename = $file->hashName('uploads/');
                 $file->move('uploads', $filename);
@@ -126,7 +136,10 @@ class ProductController extends Controller
                 });
                 $img->save();
             }
-            //img_path
+            else{
+                $filename = $item_detail->img_path;
+            }
+//            img_path
             $item_detail->img_path = $filename;
             $item_detail->recommended_type = $request->input('recommended_type');
             if ($item_detail->save()) {
@@ -153,7 +166,14 @@ class ProductController extends Controller
 
     public function delete($id)
     {
-        $item = Product::find($id)->delete();
+        $item = Product::find($id);
+        if ($item->delete()) {
+            if (File::exists($item->productDetail->img_path)) {
+                File::delete($item->productDetail->img_path);
+                $item_detail = ProductDetail::where('product_id', '=', $item->id)->delete();
+                $item_history = ProductHistory::where('product_id', '=', $item->id)->delete();
+            }
+        }
         return response()->json(['status' => 'true', 'msg' => 'Delete successfully']);
     }
 

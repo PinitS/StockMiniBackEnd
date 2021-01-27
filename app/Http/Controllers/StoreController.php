@@ -15,7 +15,8 @@ class StoreController extends Controller
             $data = [
                 'id' => $item->id,
                 'name' => $item->name,
-                'detail' => $item->detail,
+                'detail' => ($item->detail == null ?' No Data' : $item->detail),
+                'delete_active' => $item->delete_active,
             ];
             array_push($dataSet, $data);
         }
@@ -56,7 +57,15 @@ class StoreController extends Controller
 
     public function delete($id)
     {
-        $item = Store::find($id)->delete();
-        return response()->json(['status' => 'true', 'msg' => 'Delete successfully']);
+        $item = Store::find($id);
+        if (count($item->categories) > 0) {
+            return response()->json(['status' => 'false', 'msg' => 'Delete fail']);
+
+        } else {
+            $item->delete();
+            return response()->json(['status' => 'true', 'msg' => 'Delete successfully']);
+        }
+
+
     }
 }

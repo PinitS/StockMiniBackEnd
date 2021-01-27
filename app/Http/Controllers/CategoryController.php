@@ -15,9 +15,12 @@ class CategoryController extends Controller
             $data = [
                 'id' => $item->id,
                 'name' => $item->name,
-                'detail' => $item->detail,
+                'detail' => ($item->detail == null ? 'No Data' : $item->detail),
                 'mainCategory' => ($item->mainCategory == null ? 'No Data' : $item->mainCategory->name),
-                'Store' => ($item->store == null ? 'No Data' : $item->store->name),
+                'store' => ($item->store == null ? 'No Data' : $item->store->name),
+                'delete_active' => $item->delete_active,
+                'main_category_id' => $item->main_category_id,
+                'store_id' => $item->store_id
             ];
             array_push($dataSet, $data);
         }
@@ -32,7 +35,7 @@ class CategoryController extends Controller
             'name' => $item->name,
             'detail' => $item->detail,
             'mainCategory' => ($item->mainCategory == null ? 'No Data' : $item->mainCategory->name),
-            'Store' => ($item->store == null ? 'No Data' : $item->store->name),
+            'store' => ($item->store == null ? 'No Data' : $item->store->name),
         ];
         return response()->json(['status' => true, 'dataSet' => $dataSet, 'msg' => 'Get Data successfully']);
     }
@@ -61,7 +64,14 @@ class CategoryController extends Controller
 
     public function delete($id)
     {
-        $item = Category::find($id)->delete();
-        return response()->json(['status' => 'true', 'msg' => 'Delete successfully']);
+        $item = Category::find($id);
+        if (count($item->types) > 0) {
+            return response()->json(['status' => 'true', 'msg' => 'Delete fail']);
+
+        } else {
+            $item->delete();
+            return response()->json(['status' => 'true', 'msg' => 'Delete successfully']);
+        }
+
     }
 }

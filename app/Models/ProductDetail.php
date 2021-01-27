@@ -19,9 +19,10 @@ class ProductDetail extends Model
     public function getImageAttribute()
     {
         if ($this->img_path) {
-            return $this->img_path;
+            return url($this->img_path);
+//            return $this->img_path;
         }else{
-            return 'https//via.placeholder.com/150';
+            return 'https://via.placeholder.com/150';
         }
     }
 }
