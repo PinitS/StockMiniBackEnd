@@ -9,7 +9,9 @@ use App\Http\Controllers\TypeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\OtherController;
 use App\Http\Controllers\StockController;
-
+use App\Http\Controllers\ProductHistoryController;
+use App\Http\Controllers\CashierController;
+use App\Http\Controllers\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +23,14 @@ use App\Http\Controllers\StockController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::prefix('Store')->group(function () {
+    Route::get('/getAll', [StoreController::class, 'getStores']);
+    Route::get('/getOne/{id}', [StoreController::class, 'getStore']);
+    Route::post('/create', [StoreController::class, 'create']);
+    Route::post('/update', [StoreController::class, 'update']);
+    Route::delete('/delete/{id}', [StoreController::class, 'delete']);
+});
+
 Route::prefix('MainCategory')->group(function () {
     Route::get('/getAll', [MainCategoryController::class, 'getMainCategories']);
     Route::get('/getOne/{id}', [MainCategoryController::class, 'getMainCategory']);
@@ -37,14 +47,6 @@ Route::prefix('Category')->group(function () {
     Route::delete('/delete/{id}', [CategoryController::class, 'delete']);
 });
 
-Route::prefix('Store')->group(function () {
-    Route::get('/getAll', [StoreController::class, 'getStores']);
-    Route::get('/getOne/{id}', [StoreController::class, 'getStore']);
-    Route::post('/create', [StoreController::class, 'create']);
-    Route::post('/update', [StoreController::class, 'update']);
-    Route::delete('/delete/{id}', [StoreController::class, 'delete']);
-});
-
 Route::prefix('Type')->group(function () {
     Route::get('/getAll', [TypeController::class, 'getTypes']);
     Route::get('/getOne/{id}', [TypeController::class, 'getType']);
@@ -58,17 +60,37 @@ Route::prefix('Product')->group(function () {
     Route::get('/getOne/{id}', [ProductController::class, 'getProduct']);
     Route::post('/create', [ProductController::class, 'create']);
     Route::post('/update', [ProductController::class, 'update']);
+    Route::post('/changeActive', [ProductController::class, 'changeActive']);
     Route::delete('/delete/{id}', [ProductController::class, 'delete']);
 });
 
 Route::prefix('Stock')->group(function () {
-    Route::post('/getProducts', [StockController::class, 'getProducts']);
+    Route::post('/getProductsFillers', [StockController::class, 'getProductsFillers']);
+    Route::post('/create', [StockController::class, 'create']);
 });
 
 Route::prefix('Other')->group(function () {
     Route::get('/getAllDropDown', [OtherController::class, 'getAllDropDown']);
 });
 
+Route::prefix('ProductHistory')->group(function () {
+    Route::get('/getAll/{id}', [ProductHistoryController::class, 'getAll']);
+    Route::post('/changeStatus', [ProductHistoryController::class, 'changeStatus']);
+    Route::post('/changeAmountHistory', [ProductHistoryController::class, 'changeAmountHistory']);
+});
+
+Route::prefix('Cashier')->group(function () {
+    Route::post('/getProductsFillers', [CashierController::class, 'getProductsFillers']);
+});
+
+Route::prefix('Order')->group(function () {
+    Route::post('/create', [OrderController::class, 'create']);
+    Route::post('/getOrder', [OrderController::class, 'getOrder']);
+
+});
+
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+

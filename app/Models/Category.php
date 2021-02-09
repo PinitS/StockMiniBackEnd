@@ -16,6 +16,11 @@ class Category extends Model
         return $this->hasMany('App\Models\Type');
     }
 
+    public function products()
+    {
+        return $this->hasMany('App\Models\Product');
+    }
+
     public function mainCategory()
     {
         return $this->belongsTo('App\Models\MainCategory');

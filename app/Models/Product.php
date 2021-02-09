@@ -17,14 +17,29 @@ class Product extends Model
         return $this->belongsTo('App\Models\Type');
     }
 
+    public function category()
+    {
+        return $this->belongsTo('App\Models\Category');
+    }
+
     public function productDetail()
     {
         return $this->hasOne('App\Models\ProductDetail');
     }
 
+    public function orderDetails()
+    {
+        return $this->hasMany('App\Models\OrderDetails');
+    }
+
     public function productHistory()
     {
         return $this->hasMany('App\Models\ProductHistory');
+    }
+
+    public function carts()
+    {
+        return $this->hasMany('App\Models\Cart');
     }
 
     public function getDeleteActiveAttribute()

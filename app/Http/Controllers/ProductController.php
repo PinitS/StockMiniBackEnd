@@ -19,7 +19,11 @@ class ProductController extends Controller
         $dataSet = [];
         foreach ($items as $item) {
             $data = [
+
                 'id' => $item->id,
+                'store_id' => $item->store_id,
+                'category_id' => $item->category_id,
+                'type_id' => $item->type_id,
                 'type' => ($item->type == null ? 'No Data' : $item->type->name),
                 'name' => $item->name,
                 'price' => $item->price,
@@ -27,7 +31,8 @@ class ProductController extends Controller
                 'active' => $item->active,
                 'sku' => ($item->productDetail->sku == null ? 'No Data' : $item->productDetail->sku),
                 'detail' => ($item->productDetail->detail == null ? 'No Data' : $item->productDetail->detail),
-                'img' => $item->productDetail->image
+                'img' => $item->productDetail->image,
+                'recommended_type' => $item->productDetail->recommended_type
             ];
             array_push($dataSet, $data);
         }
@@ -39,6 +44,9 @@ class ProductController extends Controller
         $item = Product::find($id);
         $dataSet = [
             'id' => $item->id,
+            'store_id' => $item->store_id,
+            'category_id' => $item->category_id,
+            'type_id' => $item->type_id,
             'type' => ($item->type == null ? 'No Data' : $item->type->name),
             'name' => $item->name,
             'price' => $item->price,
@@ -55,62 +63,69 @@ class ProductController extends Controller
 
     public function create(Request $request)
     {
-        //img_path
-        if ($request->has('img_path')) {
-            $file = $request->file('img_path');
-            $filename = $file->hashName('uploads/');
-            $file->move('uploads', $filename);
-            $img = Image::make($filename);
-            $img->resize(150, 150, function ($constraint) {
-                $constraint->aspectRatio();
-            });
-            $img->save();
+        $check = Type::find($request->input('type_id'));
+        if (($check == null || $check->category == null) || $check->category->store == null) {
+            return response()->json(['status' => false, 'msg' => 'Something went wrong']);
         } else {
-            $filename = null;
-        }
-        //get store main_category category_id
-
-        //end img_path
-        $item = new Product;
-        $item->type_id = $request->input('type_id');
-        $item->store_id = $request->input('store_id');
-        $item->category_id = $request->input('category_id');
-        $item->name = $request->input('name');
-        $item->price = $request->input('price');
-        $item->amount = $request->input('amount');
-        $item->active = $request->input('active');
-
-        if ($item->save()) {
-            // product_detail
-            $item_detail = new ProductDetail;
-            $item_detail->product_id = $item->id;
-            $item_detail->sku = $request->input('sku');
-            $item_detail->detail = $request->input('detail');
-            $item_detail->img_path = $filename;
-            $item_detail->recommended_type = $request->input('recommended_type');
-            // end_product_detail
-            if ($item_detail->save()) {
-                // product_history
-                $item_history = new ProductHistory;
-                $item_history->product_id = $item->id;
-                $item_history->amount = $request->input('amount');
-                $item_history->type = 1; // 1 == Import 2 == withdraw
-                $item_history->detail = 'First Import Product ' . $item->name . ' amount ' . $item->amount;
-                if ($item_history->save()) {
-                    return response()->json(['status' => true, 'msg' => 'Create successfully']);
-                }
-                // end_product_history
+            //img_path
+            if ($request->has('img_path')) {
+                $file = $request->file('img_path');
+                $filename = $file->hashName('uploads/');
+                $file->move('uploads', $filename);
+                $img = Image::make($filename);
+                $img->resize(150, 150, function ($constraint) {
+                    $constraint->aspectRatio();
+                });
+                $img->save();
+            } else {
+                $filename = null;
             }
+            //get store main_category category_id
+
+            //end img_path
+            $item = new Product;
+            $item->type_id = $request->input('type_id');
+            $item->store_id = $request->input('store_id');
+            $item->category_id = $request->input('category_id');
+            $item->name = $request->input('name');
+            $item->price = $request->input('price');
+            $item->amount = $request->input('amount');
+            $item->active = $request->input('active');
+
+            if ($item->save()) {
+                // product_detail
+                $item_detail = new ProductDetail;
+                $item_detail->product_id = $item->id;
+                $item_detail->sku = $request->input('sku');
+                $item_detail->detail = $request->input('detail');
+                $item_detail->img_path = $filename;
+                $item_detail->recommended_type = $request->input('recommended_type');
+                // end_product_detail
+                if ($item_detail->save()) {
+                    // product_history
+                    $item_history = new ProductHistory;
+                    $item_history->user_id = $request->input('user_id');
+                    $item_history->product_id = $item->id;
+                    $item_history->amount = $request->input('amount');
+                    $item_history->type = 1; // 1 == Import 2 == withdraw
+                    $item_history->detail = 'First Import Product ' . $item->name . ' amount ' . $item->amount;
+                    if ($item_history->save()) {
+                        return response()->json(['status' => true, 'msg' => 'Create successfully']);
+                    }
+                    // end_product_history
+                }
+            }
+            return response()->json(['status' => false, 'msg' => 'Create fail']);
         }
-        return response()->json(['status' => false, 'msg' => 'Create fail']);
-        return response()->json(['status' => false, 'msg' => $img]);
     }
+
 
     public function update(Request $request)
     {
         $item = Product::find($request->input('id'));
-
         $item->type_id = $request->input('type_id');
+        $item->store_id = $request->input('store_id');
+        $item->category_id = $request->input('category_id');
         $item->name = $request->input('name');
         $item->price = $request->input('price');
         $item->active = $request->input('active');
@@ -135,8 +150,7 @@ class ProductController extends Controller
                     $constraint->aspectRatio();
                 });
                 $img->save();
-            }
-            else{
+            } else {
                 $filename = $item_detail->img_path;
             }
 //            img_path
@@ -149,19 +163,14 @@ class ProductController extends Controller
         return response()->json(['status' => 'true', 'msg' => 'Update successfully']);
     }
 
-    private function calAmount($id)
+    public function changeActive(Request $request)
     {
-        $item = Product::find($id);
-        $amount = 0;
-        foreach ($item->productHistory as $productHistory) {
-            if ($productHistory->type == 1) {
-                $amount += $productHistory->amount;
-            } else {
-                $amount -= $productHistory->amount;
-            }
+        $item = Product::find($request->input('id'));
+        $item->active = $request->input('active');
+        if ($item->save()) {
+                return response()->json(['status' => true, 'msg' => 'Update successfully']);
         }
-        $item->$amount = $amount;
-        $item->save();
+        return response()->json(['status' => 'true', 'msg' => 'Update successfully']);
     }
 
     public function delete($id)
