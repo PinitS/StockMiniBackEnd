@@ -20,6 +20,7 @@ class CreateProductHistoriesTable extends Migration
             $table->integer('type');
             $table->integer('user_id');
             $table->integer('status')->default(1);
+            $table->integer('order_id');
             $table->text('detail');
             $table->timestamps();
         });

@@ -108,6 +108,7 @@ class ProductController extends Controller
                     $item_history->product_id = $item->id;
                     $item_history->amount = $request->input('amount');
                     $item_history->type = 1; // 1 == Import 2 == withdraw
+                    $item_history->order_id = 0; //0 == no have
                     $item_history->detail = 'First Import Product ' . $item->name . ' amount ' . $item->amount;
                     if ($item_history->save()) {
                         return response()->json(['status' => true, 'msg' => 'Create successfully']);

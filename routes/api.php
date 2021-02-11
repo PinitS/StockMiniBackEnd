@@ -84,9 +84,12 @@ Route::prefix('Cashier')->group(function () {
 });
 
 Route::prefix('Order')->group(function () {
-    Route::post('/create', [OrderController::class, 'create']);
     Route::post('/getOrder', [OrderController::class, 'getOrder']);
-
+    Route::post('/getOrderStatusOne', [OrderController::class, 'getOrderStatusOne']);
+    Route::post('/create', [OrderController::class, 'create']);
+    Route::post('/changeAmount', [OrderController::class, 'changeAmount']);
+    Route::post('/changeStatus', [OrderController::class, 'changeStatus']);
+    Route::delete('/delete/{order_id}/{product_id}', [OrderController::class, 'delete']);
 });
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {

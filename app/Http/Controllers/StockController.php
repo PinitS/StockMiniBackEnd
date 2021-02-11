@@ -86,7 +86,8 @@ class StockController extends Controller
         $item_history->product_id = $item->id;
         $item_history->amount = $request->input('amount');
         $item_history->type = $request->input('mode');
-        $item_history->detail = ($request->input('mode') == 1 ? 'Import Product' : 'Withdraw Product') . $item->name . ' amount ' . $item->amount;
+        $item_history->order_id = 0;
+        $item_history->detail = ($request->input('mode') == 1 ? 'Import Product' : 'Withdraw Product') . $item->name . ' amount ' . $request->input('amount');
         if ($item_history->save()) {
             $this->calAmount($item->id);
             return response()->json(['status' => true, 'msg' => 'Add amount successfully']);
