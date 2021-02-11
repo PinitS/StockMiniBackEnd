@@ -20,22 +20,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="dbd58bd1-0c5d-466f-8b3d-03bb0c7e745f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/public/uploads/3Y4pAinj2noFHNtENb1ABaGEvwLhVROEOhlPx7fj.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/uploads/9UKrZfI3AJXbZDX4Gy06YV6aSgJls2jz1MAfF8Ex.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/uploads/FEJ7kspn59sb6EwrYlXvGJOzrhHQHX3Ud0I0te7q.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/uploads/GpMVvdbEnDS7LnCKwDEVh8MBnOsesPR1YnXYRZVy.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/uploads/RcbvD86iPfrAnrGXIaNdEUhQeKWBguiWGXHmKMLv.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/uploads/UOmb7KLwSH0IXSFZwUanlCTmECyDQatF41kE0SMC.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/uploads/aZI5FH4cjXVheC9ioGncJLFEGo6sfuCR4xpU2lQB.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/uploads/dzO8IypiNTfriBTIxDJJoocPMzKKkNSOuxkIcthV.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/uploads/fIaqkXsrmfSwcqrPhLNvYx4a15DgvNDLzlYUHbzM.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/uploads/nA6O79sq3dp0YTa6do8zTBtrnkmtG1xTHgJL5D4R.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/OrderController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/OrderController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ProductController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ProductController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/StockController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/StockController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2021_01_13_070704_create_product_histories_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2021_01_13_070704_create_product_histories_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -221,7 +207,7 @@
       <workItem from="1612750124613" duration="3824000" />
       <workItem from="1612834698243" duration="19581000" />
       <workItem from="1612922448876" duration="11464000" />
-      <workItem from="1613009494298" duration="11335000" />
+      <workItem from="1613009494298" duration="13762000" />
     </task>
     <task id="LOCAL-00001" summary="เพิ่ม controller เป็นงานๆ">
       <created>1611212698934</created>
@@ -251,7 +237,14 @@
       <option name="project" value="LOCAL" />
       <updated>1612845407153</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="ทำส่วนของ tab">
+      <created>1613028559849</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1613028559849</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -274,7 +267,8 @@
     <MESSAGE value="เพิ่ม controller เป็นงานๆ" />
     <MESSAGE value="แก้ไข dropdown" />
     <MESSAGE value="ทำส่วนของ order ในดาต้าเบส" />
-    <option name="LAST_COMMIT_MESSAGE" value="ทำส่วนของ order ในดาต้าเบส" />
+    <MESSAGE value="ทำส่วนของ tab" />
+    <option name="LAST_COMMIT_MESSAGE" value="ทำส่วนของ tab" />
   </component>
   <component name="WindowStateProjectService">
     <state x="2544" y="211" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1612840422193">
@@ -282,16 +276,16 @@
     </state>
     <state x="499" y="167" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1536.824/1920.0.1920.1040@0.0.1536.824" timestamp="1610530739353" />
     <state x="2544" y="211" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1536.824/1920.0.1920.1040@1920.0.1920.1040" timestamp="1612840422192" />
-    <state x="2505" y="88" key="CommitChangelistDialog2" timestamp="1612845404842">
+    <state x="2505" y="88" key="CommitChangelistDialog2" timestamp="1613028557971">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
     <state x="437" y="0" key="CommitChangelistDialog2/0.0.1536.824/1920.0.1920.1040@0.0.1536.824" timestamp="1611720678477" />
-    <state x="2505" y="88" key="CommitChangelistDialog2/0.0.1536.824/1920.0.1920.1040@1920.0.1920.1040" timestamp="1612845404842" />
-    <state x="2472" y="253" key="Vcs.Push.Dialog.v2" timestamp="1612845408935">
+    <state x="2505" y="88" key="CommitChangelistDialog2/0.0.1536.824/1920.0.1920.1040@1920.0.1920.1040" timestamp="1613028557971" />
+    <state x="2472" y="253" key="Vcs.Push.Dialog.v2" timestamp="1613028561858">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
     <state x="442" y="200" key="Vcs.Push.Dialog.v2/0.0.1536.824/1920.0.1920.1040@0.0.1536.824" timestamp="1611720682730" />
-    <state x="2472" y="253" key="Vcs.Push.Dialog.v2/0.0.1536.824/1920.0.1920.1040@1920.0.1920.1040" timestamp="1612845408935" />
+    <state x="2472" y="253" key="Vcs.Push.Dialog.v2/0.0.1536.824/1920.0.1920.1040@1920.0.1920.1040" timestamp="1613028561858" />
     <state x="2587" y="119" width="586" height="801" key="find.popup" timestamp="1612240184235">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>

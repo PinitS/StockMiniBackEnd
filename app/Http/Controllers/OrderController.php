@@ -152,12 +152,12 @@ class OrderController extends Controller
     {
         $user_id = $request->input('user_id');
         $items = Order::where('user_id', '=', $user_id)->where('status', '=', 1)->get();
-        $sum_all_amount = 0;
-        $sum_all_price = 0;
         $dataSet = [];
 
         foreach ($items as $item) {
             $dataOrder = [];
+            $sum_all_amount = 0;
+            $sum_all_price = 0;
             foreach ($item->orderDetails as $detail) {
                 $sum = $detail->amount * $detail->product->price;
                 $sum_all_amount += $detail->amount;
@@ -168,7 +168,7 @@ class OrderController extends Controller
                     'product_id' => $detail->product->id,
                     'amount' => $detail->amount,
                     'price' => $detail->product->price,
-                    'sum_price' => $detail->id,
+                    'sum_price' => $sum,
                 ];
                 $dataSum = (object)['sum_all_amount' => $sum_all_amount, 'sum_all_price' => $sum_all_price,];
 //                array_push($dataOrder, (object)[
@@ -178,7 +178,7 @@ class OrderController extends Controller
                 array_push($dataOrder, $data);
 
             }
-            array_push($dataSet, (object)['data' => $dataOrder , 'sum' => $dataSum]);
+            array_push($dataSet, (object)['data' => $dataOrder , 'sum' => $dataSum , 'order_id' => $item->id]);
         }
         return response()->json(['status' => true, 'dataSet' => $dataSet, 'msg' => 'Get Data Cart successfully']);
     }
