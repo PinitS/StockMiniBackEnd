@@ -18,6 +18,7 @@ class CreateOrderDetailsTable extends Migration
             $table->integer('order_id');
             $table->integer('product_id');
             $table->integer('amount');
+            $table->integer('status')->default(0);
             $table->timestamps();
         });
     }

@@ -12,7 +12,7 @@ use App\Http\Controllers\StockController;
 use App\Http\Controllers\ProductHistoryController;
 use App\Http\Controllers\CashierController;
 use App\Http\Controllers\OrderController;
-
+use App\Http\Controllers\StoreOrderController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -90,6 +90,13 @@ Route::prefix('Order')->group(function () {
     Route::post('/changeAmount', [OrderController::class, 'changeAmount']);
     Route::post('/changeStatus', [OrderController::class, 'changeStatus']);
     Route::delete('/delete/{order_id}/{product_id}', [OrderController::class, 'delete']);
+});
+
+Route::prefix('StoreOrder')->group(function () {
+    Route::post('/getOrderDetails', [StoreOrderController::class, 'getOrderDetails']);
+    Route::post('/updateStatus', [StoreOrderController::class, 'updateStatus']);
+
+
 });
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {

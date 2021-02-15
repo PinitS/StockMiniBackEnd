@@ -164,6 +164,7 @@ class OrderController extends Controller
                 $sum_all_price += $sum;
                 $data = [
                     'orderDetails_id' => $detail->id,
+                    'status' => $detail->status,
                     'name' => $detail->product->name,
                     'product_id' => $detail->product->id,
                     'amount' => $detail->amount,
@@ -171,16 +172,16 @@ class OrderController extends Controller
                     'sum_price' => $sum,
                 ];
                 $dataSum = (object)['sum_all_amount' => $sum_all_amount, 'sum_all_price' => $sum_all_price,];
-//                array_push($dataOrder, (object)[
-//                    'order' => $data,
-//                    'sum' => $dataSum
-//                ]);
                 array_push($dataOrder, $data);
-
             }
-            array_push($dataSet, (object)['data' => $dataOrder , 'sum' => $dataSum , 'order_id' => $item->id]);
+            $orderData = [
+                'id' => $item->id,
+                'user_id' => $item->user_id,
+                'status' => $item->status
+            ];
+            array_push($dataSet, (object)['data' => $dataOrder, 'sum' => $dataSum, 'order' => $orderData]);
         }
-        return response()->json(['status' => true, 'dataSet' => $dataSet, 'msg' => 'Get Data Cart successfully']);
+        return response()->json(['status' => true, 'dataSet' => $dataSet, 'items' => $items, 'msg' => 'Get Data Cart successfully']);
     }
 
 }

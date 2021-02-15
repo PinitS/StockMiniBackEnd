@@ -19,7 +19,6 @@ class ProductController extends Controller
         $dataSet = [];
         foreach ($items as $item) {
             $data = [
-
                 'id' => $item->id,
                 'store_id' => $item->store_id,
                 'category_id' => $item->category_id,
