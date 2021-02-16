@@ -33,6 +33,7 @@ class StoreOrderController extends Controller
     {
         $id = $request->input('id');
         $item = OrderDetails::whereIn('id', $id)->update(['status' => 1]);
+
         return response()->json(['status' => true, 'dataSet' => $item, 'msg' => 'StoreOrderDetails successfully']);
     }
     //

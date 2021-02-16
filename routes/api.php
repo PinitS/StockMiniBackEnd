@@ -13,6 +13,7 @@ use App\Http\Controllers\ProductHistoryController;
 use App\Http\Controllers\CashierController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\StoreOrderController;
+use App\Http\Controllers\ServiceStoreController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -95,9 +96,14 @@ Route::prefix('Order')->group(function () {
 Route::prefix('StoreOrder')->group(function () {
     Route::post('/getOrderDetails', [StoreOrderController::class, 'getOrderDetails']);
     Route::post('/updateStatus', [StoreOrderController::class, 'updateStatus']);
-
-
 });
+
+Route::prefix('ServiceStore')->group(function () {
+    Route::get('/getOrderStatusOne', [ServiceStoreController::class, 'getOrderStatusOne']);
+});
+
+
+
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
