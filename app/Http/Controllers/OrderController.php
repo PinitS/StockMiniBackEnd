@@ -143,7 +143,7 @@ class OrderController extends Controller
     {
         $order_id = $request->input('id');
         $item = Order::find($order_id);
-        $item->status = 1;
+        $item->status = $request->input('status');
         $item->save();
         return response()->json(['status' => true, 'dataSet' => $item, 'msg' => 'Change Data in Cart successfully']);
     }
@@ -151,7 +151,7 @@ class OrderController extends Controller
     public function getOrderStatusOne(Request $request)
     {
         $user_id = $request->input('user_id');
-        $items = Order::where('user_id', '=', $user_id)->where('status', '=', 1)->get();
+        $items = Order::where('user_id', '=', $user_id)->where('status', '>', 0)->where('status', '<', 3)->get();
         $dataSet = [];
 
         foreach ($items as $item) {
